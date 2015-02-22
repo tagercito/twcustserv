@@ -87,8 +87,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # oauth-tokens settings
-OAUTH_TOKENS_HISTORY = True                                        # to keep in DB expired access tokens
+OAUTH_TOKENS_HISTORY = True                                               # to keep in DB expired access tokens
 OAUTH_TOKENS_TWITTER_CLIENT_ID = '30598040'                                # application ID
-OAUTH_TOKENS_TWITTER_CLIENT_SECRET = 'j3ilbC5Nn7Pgug89wi1sQNpkAcKYcJ4U2ZdcJ18yrvlRdkZ6te'                            # application secret key
+OAUTH_TOKENS_TWITTER_CLIENT_SECRET = 'c6iGAdcht4iACPJw7BBEMgOB3mnkIzNRSPlJx0ZdgxRrD'    # application secret key
 OAUTH_TOKENS_TWITTER_USERNAME = 'cgalceran'                                 # user login
-OAUTH_TOKENS_TWITTER_PASSWORD = 'greenback1981()'                                 # user password
+OAUTH_TOKENS_TWITTER_PASSWORD = 'carlitos1981'                              # user password
+    
