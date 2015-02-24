@@ -36,10 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'oauth_tokens',
-    'm2m_history',
-    'taggit',
-    'twitter_api',
+    'CustomerService',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,11 +82,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# oauth-tokens settings
-OAUTH_TOKENS_HISTORY = True                                               # to keep in DB expired access tokens
-OAUTH_TOKENS_TWITTER_CLIENT_ID = '30598040'                                # application ID
-OAUTH_TOKENS_TWITTER_CLIENT_SECRET = 'c6iGAdcht4iACPJw7BBEMgOB3mnkIzNRSPlJx0ZdgxRrD'    # application secret key
-OAUTH_TOKENS_TWITTER_USERNAME = 'cgalceran'                                 # user login
-OAUTH_TOKENS_TWITTER_PASSWORD = 'carlitos1981'                              # user password
-    
+   
