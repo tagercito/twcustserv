@@ -8,6 +8,20 @@ api = twitter.Api(consumer_key='SJfHGWO9saCQAYvLLbTmX3CJQ',
 
 dms = api.GetDirectMessages('cgalceran')
 
-print [msg.text for msg in dms]
+message_id=[]
+date_created=[]
+sender_id=[]
+sender_screen_name=[]
+messagetext =[]
+
+for msg in dms:
+	message_id.append(msg.id)
+	date_created.append(msg.created_at)
+	sender_id.append(msg.sender_id)
+	sender_screen_name.append(msg.sender_screen_name)
+	messagetext.append(msg.text)
+
+
+print (message_id)
 
 #Felizzzzz hookeado al twitterAPI por primera vez...
