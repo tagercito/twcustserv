@@ -1,10 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from CustomerService.models import Thread, Message 
+from django.core.management.base import BaseCommand
+from customerservice.models import Thread, Message 
 #Base application to get DirectMessages from Twitter API
 import twitter
 class Command(BaseCommand):
 			
-	def handle(self):
+	def handle(self, *args, **options):
 		#estos valores van el settings.
 
 		api = twitter.Api(consumer_key='SJfHGWO9saCQAYvLLbTmX3CJQ',
@@ -16,7 +16,7 @@ class Command(BaseCommand):
 		#TwitterAPI jamas trae tus propios DirectMessages, trae solo incoming.
 		for msg in api.GetDirectMessages(self.screen_name):
 			thread, created = Thread.objects.get_or_create(screen_name=msg.sender_screen_name, date_created=msg.created_at)
-			message, created = Message.objects.get_or_create(thread=threadmessage_id=msg.id, sender=msg.sender_id, message= msg.text)
+			message, created = Message.objects.get_or_create(thread=thread,message_id=msg.id, sender=msg.sender_id, message= msg.text)
 
 	
 
