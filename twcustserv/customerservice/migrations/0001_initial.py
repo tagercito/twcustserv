@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='message',
             name='thread',
-            field=models.ForeignKey(to='CustomerService.Thread'),
+            field=models.ForeignKey(to='customerservice.Thread'),
             preserve_default=True,
         ),
     ]

@@ -16,8 +16,9 @@ class Command(BaseCommand):
 		self.screen_name = 'cgalceran'
 		#TwitterAPI jamas trae tus propios DirectMessages, trae solo incoming.
 		for msg in api.GetDirectMessages(self.screen_name):
-			thread, created = Thread.objects.get_or_create(screen_name=msg.sender_screen_name,
-														   date_created=time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(msg.created_at,'%a %b %d %H:%M:%S +0000 %Y')))
+			
+			thread, created = Thread.objects.get_or_create(screen_name=msg.sender_screen_name, defaults={'date_created': time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(msg.created_at,'%a %b %d %H:%M:%S +0000 %Y'))})
+			
 			message, created = Message.objects.get_or_create(thread=thread,message_id=msg.id, sender=msg.sender_id, message= msg.text)
 
 	
