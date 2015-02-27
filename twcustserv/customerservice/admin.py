@@ -4,5 +4,14 @@ from django.contrib import admin
 
 from customerservice.models import Thread, Message 
 
-admin.site.register(Thread)
+
+
+class MessageStackedInline(admin.StackedInline):
+	model = Message
+	extra = 1
+
+class ThreadAdmin(admin.ModelAdmin):
+	inlines = [MessageStackedInline,]
+
+admin.site.register(Thread, ThreadAdmin)
 admin.site.register(Message) 

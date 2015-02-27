@@ -1,9 +1,3 @@
-Por favor instalar los siguientes Packages en sus Virtualenvs:
-
-Desde Pypi:
-
 Django==1.7
-
 django-twitter-api
-
-
+django-suit

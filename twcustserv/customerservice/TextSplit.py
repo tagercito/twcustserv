@@ -3,7 +3,7 @@
 replydm = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat enim id pretium imperdiet. Maecenas fringilla ut ligula vel posuere. Phasellus scelerisque, massa id egestas hendrerit, nibh lectus hendrerit sapien, a rutrum ligula enim non nibh. Etiam id arcu urna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed pulvinar nibh ac.'
 replydm_splitted=[]
 continua=' (cont)'
-
+"""
 def split(s, n):
     for start in range(0, len(s), n):
         yield s[start:start+n]
@@ -16,6 +16,14 @@ for splits in replydm_splitted:
 		print splits+continua 
 	else:
 		print splits 
+
+"""
+def split(s, l):
+  l.append(s[:140])
+  if len(s) < 140:return l
+  return split(s[140:], l)
+
+print split(replydm, [])
 
 #tager's code
 '''
