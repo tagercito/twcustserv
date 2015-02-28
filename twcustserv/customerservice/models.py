@@ -9,8 +9,17 @@ class Thread(models.Model):
        screen_name = models.CharField(max_length=100)
        user_id = models.CharField(max_length=140)
        date_created = models.DateTimeField(auto_now=True)
-
-       status = models.BooleanField(default=False)
+       
+       #create a choice field inside the class
+       OPEN = 'OP'
+       PENDING = 'PE'       
+       CLOSED = 'CL'
+       TICKET_STATUS_CHOICES = (
+        (OPEN,'Open'),
+        (PENDING,'Pending'),
+        (CLOSED,'Closed'),
+        )
+       status = models.CharField(max_length=2,choices=TICKET_STATUS_CHOICES,default=OPEN)
 
        def __unicode__(self):
        	return self.screen_name
@@ -25,10 +34,14 @@ class Message(models.Model):
        def __unicode__(self):
        	return self.message_id
 
-def split(s, l):
-  l.append(s[:139])
+
+#funcion recursiva que parte el texto en strings de 130 caracteres
+def split(s, l): 
+  l.append(s[:130])
   if len(s) < 140:return l
-  return split(s[139:], l)
+  return split(s[130:], l)
+
+continua=' (cont)'
 
 def post_msg_to_twitter(sender, instance, created, **kwargs):
        if not instance.creator:
@@ -37,11 +50,13 @@ def post_msg_to_twitter(sender, instance, created, **kwargs):
                               access_token_key='30598040-kKdSKjnFWgS6h1L54ge3k4OKn2sTKYaWy4Qa3ARIn', 
                               access_token_secret='c6iGAdcht4iACPJw7BBEMgOB3mnkIzNRSPlJx0ZdgxRrD')
               for message in split(instance.message,[]):
-                     print len(message)
-                     own_msg = api.PostDirectMessage(message, instance.thread.user_id)
-              #Agregar logica de recortar el texto en 140 caracteres
+                if message != split(instance.message,[])[-1]: #logica para agregar (' cont') en todos menos el ultimo mensaje 
+                  own_msg = api.PostDirectMessage(message+continua, instance.thread.user_id)
+                else:
+                  own_msg = api.PostDirectMessage(message, instance.thread.user_id)
               instance.message_id = str(own_msg.id) 
               instance.creator= True
               instance.save()
 
 post_save.connect(post_msg_to_twitter, sender=Message)
+

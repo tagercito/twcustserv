@@ -19,11 +19,16 @@ for splits in replydm_splitted:
 
 """
 def split(s, l):
-  l.append(s[:140])
-  if len(s) < 140:return l
-  return split(s[140:], l)
+  l.append(s[:130])
+  if len(s) < 130:return l
+  return split(s[130:], l)
+#print split(replydm, []))
 
-print split(replydm, [])
+for splits in split(replydm, []):
+  if splits != split(replydm, [])[-1]:
+    print splits+continua 
+  else:
+    print splits
 
 #tager's code
 '''
