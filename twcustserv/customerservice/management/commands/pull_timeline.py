@@ -6,11 +6,11 @@ class Command(BaseCommand):
 			
 	def handle(self, *args, **options):
 
-		api = twitter.Api(consumer_key='SJfHGWO9saCQAYvLLbTmX3CJQ',
-				  consumer_secret='j3ilbC5Nn7Pgug89wi1sQNpkAcKYcJ4U2ZdcJ18yrvlRdkZ6te', 
-				  access_token_key='30598040-kKdSKjnFWgS6h1L54ge3k4OKn2sTKYaWy4Qa3ARIn', 
-				  access_token_secret='c6iGAdcht4iACPJw7BBEMgOB3mnkIzNRSPlJx0ZdgxRrD')
-		self.screen_name = 'cgalceran'
+		api = twitter.Api(consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
+				  consumer_secret='2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX', 
+				  access_token_key='3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ', 
+				  access_token_secret='vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84')
+		self.screen_name = 'apimtechtest'
 		friend_ids = api.GetFriendIDs()
 		for mention in api.GetMentions():
 			api.PostUpdate('Hola @%s, por favor mandanos mensaje directo' % mention.user.screen_name,
