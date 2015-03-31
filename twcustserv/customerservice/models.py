@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models.signals import post_save
 import twitter
+from django.conf import settings
+
+api = settings.TWITTER_API_CREDENTIALS 
 
 # Create your models here.
 
@@ -45,10 +48,7 @@ continua=' (cont)'
 
 def post_msg_to_twitter(sender, instance, created, **kwargs):
        if not instance.creator:
-              api = twitter.Api(consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
-                                consumer_secret='2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX', 
-                                access_token_key='3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ', 
-                                access_token_secret='vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84')
+              
               for message in split(instance.message,[]):
                 if message != split(instance.message,[])[-1]: #logica para agregar (' cont') en todos menos el ultimo mensaje 
                   own_msg = api.PostDirectMessage(message+continua, instance.thread.user_id)

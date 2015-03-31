@@ -2,22 +2,22 @@ from django.core.management.base import BaseCommand
 from customerservice.models import Thread, Message 
 import twitter
 import time
+from django.conf import settings
+api = settings.TWITTER_API_CREDENTIALS 
+
 class Command(BaseCommand):
 			
 	def handle(self, *args, **options):
 
-		api = twitter.Api(consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
-				  consumer_secret='2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX', 
-				  access_token_key='3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ', 
-				  access_token_secret='vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84')
 		self.screen_name = 'apimtechtest'
+		
 		friend_ids = api.GetFriendIDs()
+		
 		for mention in api.GetMentions():
-			api.PostUpdate('Hola @%s, por favor mandanos mensaje directo' % mention.user.screen_name,
-						 	mention.id)				
+			api.PostUpdate('Hola @%s, por favor mandanos un mensaje directo con tus datos y una descripcion del problema' % mention.user.screen_name,
+						 	mention.id)	#tira error por duplicar  "leer 3er parrafo https://dev.twitter.com/rest/reference/post/statuses/update"			
  			if mention.user.id not in friend_ids:
- 				api.CreateFriendship(mention.user)
-				#dm_text = "Hola, pasanos por aca tus datos privados"
-				#api.PostDirectMessage(mention.user)
+ 				api.CreateFriendship(mention.user.id)
+
+
 				
-				#print ' no es amigo %s' % mention.user.screen_name
