@@ -96,15 +96,31 @@ SUIT_CONFIG = {
 
 STATIC_URL = '/static/'
    
-##### Settings for the Twitter Customer Service Account : @apimtechtest ##### 
+##### SETTINGS for the Twitter Customer Service Account : @apimtechtest ##### 
 
-import twitter
+CONTINUA=' (cont)' #Add this string to every splitted replied message that Representative sends
 
-TWITTER_API_CREDENTIALS = twitter.Api(consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
+
+
+'''
+TWITTER_API_CREDENTIALS = (consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
                   consumer_secret='2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX', 
                   access_token_key='3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ', 
                   access_token_secret='vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84')
+'''
 
 
+CONSUMER_KEY = 'Fbve1E4JqZ0cnb9ouVoOycbgp'
+CONSUMER_SECRET = '2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX'
+ACCESS_TOKEN_KEY = '3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ'
+ACCESS_TOKEN_SECRET = 'vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84'
+
+APPS_TWITTER_USERNAME = 'apimtechtest'
 
 
+POST_MENTION_UPDATE = 'Hola @%s, por favor mandanos un mensaje directo con tus datos y el problema, que te contestaremos a la brevedad.'
+ANSWER_TO_DIRECT_MESSAGE = 'Gracias @%s por contactarnos, te responderemos a la brevedad con una solucion a tu consulta.'
+
+OPEN = 'OP'
+PENDING = 'PE'       
+CLOSED = 'CL' 
