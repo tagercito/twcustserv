@@ -7,22 +7,24 @@ from customerservice.models import Thread, Message
 
 
 class MessageStackedInline(admin.StackedInline):
-	model = Message
-	extra = 1
+    exclude = ('creator','sender', 'message_id')
+
+    model = Message
+    extra = 1
+
 
 class ThreadAdmin(admin.ModelAdmin):
-	inlines = [MessageStackedInline,]
-	
-	readonly_fields = ('screen_name','user_id','date_created','status',)
-	
-	def suit_row_attributes(self, Thread, request):
-			css_class = {
-            settings.CLOSED: 'success',
+    inlines = [MessageStackedInline, ]
+
+    readonly_fields = ('screen_name', 'user_id', 'date_created')
+
+    def suit_row_attributes(self, Thread, request):
+        css_class = {
+            settings.CLOSED: 'error',
             settings.PENDING: 'warning',
-            settings.OPEN: 'error',
-        	}.get(Thread.status)
-			if css_class:
-				return {'class': css_class, 'data': Thread}
+            settings.OPEN: 'success'}.get(Thread.status)
+        if css_class:
+            return {'class': css_class, 'data': Thread}
 
 
 
