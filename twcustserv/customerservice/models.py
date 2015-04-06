@@ -20,8 +20,10 @@ TICKET_STATUS_CHOICES = (
 # Create your models here.
 
 def split(s, l=[]): #funcion recursiva que parte el texto en strings de 140 caracteres
+  if len(s) < 140:
+      l.append(s)
+      return l
   l.append(s[:140-len(settings.CONTINUA)]+settings.CONTINUA)
-  if len(s) < 140:return l
   return split(s[140-len(settings.CONTINUA):], l)
 
 
@@ -47,13 +49,18 @@ class Message(models.Model):
 
 
 def post_msg_to_twitter(sender, instance, created, **kwargs):
-       
-       if not instance.creator:              
-              for message in split(instance.message):
-                  own_msg = api.PostDirectMessage(message, instance.thread.user_id)
-              instance.message_id = str(own_msg.id) 
-              instance.creator= True
-              instance.save()
+    own_msg = None
+    if not instance.creator:
+        for message in split(instance.message):
+            try:
+                own_msg = api.PostDirectMessage(message, instance.thread.user_id)
+            except:
+                pass
+        import pdb;pdb.set_trace()
+        if own_msg:
+            instance.message_id = str(own_msg.id)
+            instance.creator = True
+            instance.save()
 
 post_save.connect(post_msg_to_twitter, sender=Message)
 

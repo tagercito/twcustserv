@@ -1,20 +1,16 @@
 from django.core.management.base import BaseCommand
 from customerservice.models import Thread, Message, CLOSED, OPEN, PENDING
-
-
-
-#Base application to get DirectMessages from Twitter API
 import twitter
 import time
 from django.conf import settings
 
+
 api = twitter.Api(consumer_key=settings.CONSUMER_KEY, consumer_secret=settings.CONSUMER_SECRET, access_token_key=settings.ACCESS_TOKEN_KEY, access_token_secret=settings.ACCESS_TOKEN_SECRET) 
 
 
-
 class Command(BaseCommand):
-			
-	def handle(self, *args, **options):
+
+    def handle(self, *args, **options):
 
 
 		self.screen_name = settings.APPS_TWITTER_USERNAME
