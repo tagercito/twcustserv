@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -85,9 +86,17 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 )
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': 'Ticketek CS Dashboard'
+    'ADMIN_NAME': 'Ticketek CS Dashboard',
+    'MENU_EXCLUDE': ('auth.group', 'auth'),
+    'MENU_ICONS': {
+        'customerservice': 'icon-envelope',
+    }
 }
 
+TEMPLATES_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)        
+  
 
 
 
@@ -99,16 +108,6 @@ STATIC_URL = '/static/'
 ##### SETTINGS for the Twitter Customer Service Account : @apimtechtest ##### 
 
 CONTINUA=' (cont)' #Add this string to every splitted replied message that Representative sends
-
-
-
-'''
-TWITTER_API_CREDENTIALS = (consumer_key='Fbve1E4JqZ0cnb9ouVoOycbgp',
-                  consumer_secret='2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX', 
-                  access_token_key='3129661635-wjyM6RYKSWQ37LDhNOtmvDmNNq0JkL1n1SI75EJ', 
-                  access_token_secret='vnDCKDf1ILaZMuJaTgO4cvaFdFr3oP7AXMsBanblyLU84')
-'''
-
 
 CONSUMER_KEY = 'Fbve1E4JqZ0cnb9ouVoOycbgp'
 CONSUMER_SECRET = '2HOEHzTR2E6LAbWmglkFwOzq2WCZ3X2LJwguHFq0eUVZIWNmRX'
