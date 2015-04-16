@@ -98,6 +98,10 @@ TEMPLATES_DIRS = (
 )        
   
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
 
 
 # Static files (CSS, JavaScript, Images)
