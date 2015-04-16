@@ -11,5 +11,37 @@
 
 {% block breadcrumbs %}{% endblock %}
 
+{% block content-center %}
 
-
+<div id="suit-center" class="suit-column">
+            
+            <table class="table-overview applist" summary="#">
+              <caption><a href="#" class="section"></a><h2><center>TICKETS CURRENT STATUS</center> </h2></caption>
+                
+                <tr>
+                  <th scope="row">OPEN</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td><a href="#" class="#">13</a></td>         
+                   <td>&nbsp;</td>
+               
+              </tr>
+              <tr>
+                  <th scope="row">PENDING</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td><a href="#" class="#">24</a></td>         
+                   <td>&nbsp;</td>
+               
+              </tr>
+              <tr>
+                  <th scope="row">CLOSED</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td><a href="#" class="#">56</a></td>         
+                   <td>&nbsp;</td>
+               
+              </tr>
+            </table>
+</div>            
+{% endblock %}

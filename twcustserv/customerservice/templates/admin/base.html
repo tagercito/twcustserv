@@ -92,38 +92,7 @@
 
         {% block content-center %}
           <div id="suit-center" class="suit-column">
-            
-            <table class="table-overview applist" summary="#">
-              <caption><a href="#" class="section"></a><h2><center>TICKETS CURRENT STATUS</center> </h2></caption>
-                
-                <tr>
-                  <th scope="row">OPEN</th>
-                   <td> <a href="#" class="changelink icon"></a> </td>
-                   <td>&nbsp;</td>
-                   <td><a href="#" class="#">13</a></td>         
-                   <td>&nbsp;</td>
-               
-              </tr>
-              <tr>
-                  <th scope="row">PENDING</th>
-                   <td> <a href="#" class="changelink icon"></a> </td>
-                   <td>&nbsp;</td>
-                   <td><a href="#" class="#">24</a></td>         
-                   <td>&nbsp;</td>
-               
-              </tr>
-              <tr>
-                  <th scope="row">CLOSED</th>
-                   <td> <a href="#" class="changelink icon"></a> </td>
-                   <td>&nbsp;</td>
-                   <td><a href="#" class="#">56</a></td>         
-                   <td>&nbsp;</td>
-               
-              </tr>
-            </table>
-
-          
-
+       
             {% block messages %}
               {% if messages %}
 
@@ -137,7 +106,7 @@
             {% endblock messages %}
 
             <!-- Content -->
-            <div id="content" class="{% block coltype %}colM{% endblock %} row-fluid">holaaaaaaaaaaaaaaaaaaasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+            <div id="content" class="{% block coltype %}colM{% endblock %} row-fluid">
               {% block pretitle %}{% endblock %}
               {% block content_title %}{% if title %}
                 <h2 class="content-title">{{ title }}</h2>
