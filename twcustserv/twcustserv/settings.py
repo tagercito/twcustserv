@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'customerservice',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,7 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'customerservice',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,11 +99,6 @@ TEMPLATES_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )        
   
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
 print TEMPLATES_DIRS 
 
 
