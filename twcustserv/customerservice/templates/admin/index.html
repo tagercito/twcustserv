@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
 
+
 {% block extrastyle %}
   {{ block.super }}
 {% endblock %}
@@ -78,11 +79,23 @@
 
               </tr>
             </table>
-              
+                
+                {% if perms.customerservice %}
+                  
+                  {% for group in user.groups.all %}
+                  {% if group.name == 'Supervisor' %}
+                  {% comment %}
                     <div class="span5">
                       <canvas id="thread_chart" width="300" height="300" style="margin-left:46px;"></canvas>
                     </div>
-              
+                  {% endcomment %}
+                  {% endif %}
+                  {% endfor %}
+                  
+
+                {% endif %}
+
+
         </div>
     </div>
     <div class="row">
