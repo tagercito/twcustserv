@@ -80,21 +80,18 @@
               </tr>
             </table>
                 
-                {% if perms.customerservice %}
-                  
-                  {% for group in user.groups.all %}
-                  {% if group.name == 'Supervisor' %}
-                  {% comment %}
+                <!--  Permissions: Este codigo es para traer no mostrarle a ciertos usuarios sin privilegios algo de html --> 
+                {% for group in user.groups.all %}
+                 
+                  {% if group.name == "Supervisor"  or group.name == "Administrador" %}
+                    
                     <div class="span5">
                       <canvas id="thread_chart" width="300" height="300" style="margin-left:46px;"></canvas>
                     </div>
-                  {% endcomment %}
-                  {% endif %}
-                  {% endfor %}
                   
-
-                {% endif %}
-
+                  {% endif %}
+                {% endfor %}
+                <!--  final del codigo Permissions -->
 
         </div>
     </div>
