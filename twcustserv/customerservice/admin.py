@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.conf import settings
 # Register your models here.
-
+from django.forms import TextInput, Textarea
+from django.db import models
 from customerservice.models import Thread, Message , Bulletin
 
 
@@ -11,13 +12,17 @@ class MessageStackedInline(admin.StackedInline):
     readonly_fields = ('user',)
     model = Message
     extra = 1
-
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows':6, 'cols':40, 'style': 'width: 800px;'})},
+    }
 
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, ]
     list_filter = ('status', )
     readonly_fields = ('screen_name', 'user_id', 'date_created')
     list_display = ('screen_name', 'date_created')
+    
+
 
     def suit_row_attributes(self, Thread, request):
         css_class = {

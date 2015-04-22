@@ -20,9 +20,8 @@
         data = {{user|get_thread_chart|safe}};
         var myNewChart = new Chart(ctx).Pie(data);
     })
-
-
 </script>
+
 <div id="suit-center" class="suit-column">
     <div class="row">
         {% with threads=user|get_messages_since_last_login %}
@@ -43,6 +42,12 @@
         </div>
         {% endif %}
         {% endwith %}
+        <div class="span3">
+          <td>&nbsp;</td>
+        <a class="twitter-timeline" width="300" height="500" data-chrome="nofooter noheader noscrollbar" href="https://twitter.com/apimtechtest" data-widget-id="589105970732740608">Tweets by @apimtechtest </a>
+
+        </div>
+        
 
         <div class="span5">
             <table class="table-overview applist" summary="#">
@@ -73,9 +78,12 @@
 
               </tr>
             </table>
-                    <div class="span2">
+
+
+                    <div class="span5">
             <canvas id="thread_chart" width="300" height="300" style="margin-left:46px;"></canvas>
         </div>
+
         </div>
     </div>
     <div class="row">
