@@ -30,7 +30,8 @@ class Thread(models.Model):
     user_id = models.CharField(max_length=140)
     date_created = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES, default=OPEN)
-
+    #assigned_to = models.ForeignKey('auth.User', null=True)
+    
     def __unicode__(self):
         return self.screen_name
 

@@ -15,6 +15,7 @@ class MessageStackedInline(admin.StackedInline):
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':6, 'cols':40, 'style': 'width: 800px;'})},
     }
+   
 
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, ]
@@ -52,4 +53,4 @@ class BulletinAdmin(admin.ModelAdmin):
 
 admin.site.register(Bulletin, BulletinAdmin)
 admin.site.register(Thread, ThreadAdmin)
-admin.site.register(Message) 
+#admin.site.register(Message) 
