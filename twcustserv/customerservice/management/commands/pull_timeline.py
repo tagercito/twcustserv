@@ -12,10 +12,11 @@ class Command(BaseCommand):
 
         friend_ids = api.GetFriendIDs()
         for mention in api.GetMentions():
-            try:
-                api.PostUpdate(settings.POST_MENTION_UPDATE % mention.user.screen_name, mention.id)
-            except:
-                continue
-            else:
-                if mention.user.id not in friend_ids:
-                    api.CreateFriendship(mention.user.id)
+            if mention.text.startswith('@'+settings.APPS_TWITTER_USERNAME):      
+                try:
+                    api.PostUpdate(settings.POST_MENTION_UPDATE % mention.user.screen_name, mention.id)
+                except:
+                    continue
+                else:
+                    if mention.user.id not in friend_ids:
+                        api.CreateFriendship(mention.user.id)
