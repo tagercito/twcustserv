@@ -19,11 +19,15 @@ class MessageStackedInline(admin.StackedInline):
 
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, ]
-    list_filter = ('status', )
-    readonly_fields = ('screen_name', 'user_id', 'date_created')
+    list_filter = ('status', 'assigned_to' )
+    readonly_fields = ['screen_name', 'user_id', 'date_created']
     list_display = ('screen_name', 'date_created')
     
-
+    def get_readonly_fields(self, request, obj=None):
+        user_group = request.user.groups.all()[0]
+        if 'Administrador' == user_group.name or 'Supervisor' in user_group.name:
+            return self.readonly_fields
+        return self.readonly_fields + ['assigned_to']
 
     def suit_row_attributes(self, Thread, request):
         css_class = {
