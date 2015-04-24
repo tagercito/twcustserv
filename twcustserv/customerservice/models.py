@@ -47,6 +47,14 @@ class Message(models.Model):
     def __unicode__(self):
         return self.message_id if self.message_id else ''
 
+class Pull(models.Model):
+    """docstring for Pull"""
+    message_id = models.CharField(max_length=20, null=True, blank=True)
+    
+    def __unicode__(self):
+        return self.message_id
+        
+        
 
 class Bulletin(models.Model):
     user = models.ForeignKey('auth.User', null=True, blank=True)
