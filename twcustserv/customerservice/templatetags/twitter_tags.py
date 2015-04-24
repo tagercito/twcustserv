@@ -43,9 +43,22 @@ def get_lastest_bulletins(user):
 def get_important_bulletins(user):
     return Bulletin.objects.filter(important=True)
 
+def get_user_ticket_quantity(user):
+    users = dict(nadie=0)
+    for thread in Thread.objects.filter(status='OP'):
+        if thread.assigned_to:
+            if users.get(thread.assigned_to, None):
+                users[thread.assigned_to.username] = 1
+            else:
+                users[thread.assigned_to.username] += 1
+        else:
+            users['nadie'] += 1
+    return users
+
 
 register.filter('get_thread_count', get_thread_count)
 register.filter('get_messages_since_last_login', get_messages_since_last_login)
 register.filter('get_thread_chart', get_thread_chart)
 register.filter('get_lastest_bulletins', get_lastest_bulletins)
 register.filter('get_important_bulletins', get_important_bulletins)
+register.filter('get_user_ticket_quantity', get_user_ticket_quantity)

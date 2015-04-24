@@ -88,8 +88,25 @@
                     <div class="span5">
                       <canvas id="thread_chart" width="300" height="300" style="margin-left:46px;"></canvas>
                     </div>
-                  
-                  {% endif %}
+                    {% with threads=user|get_user_ticket_quantity %}
+                            {% if threads %}
+                            <div class="span5">
+                                <table class="table-overview applist" summary="#">
+                                  <caption><a href="#" class="section"></a><h2>TICKETS POR USUARIO</h2></caption>
+                                        {% for k,v  in threads %}
+                                            <tr>
+                                              <th scope="row">{{k}}</th>
+                                               <td> <a href="#" class="changelink icon"></a> </td>
+                                               <td>&nbsp;</td>
+                                               <td>>{{vr}}></td>
+                                               <td>&nbsp;</td>
+                                            </tr>
+                                        {% endfor %}
+                                </table>
+                            </div>
+                    {% endif %}
+                            {% endwith %}
+            {% endif %}
                 {% endfor %}
                 <!--  final del codigo Permissions -->
 
