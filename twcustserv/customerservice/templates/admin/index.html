@@ -93,12 +93,12 @@
                             <div class="span5">
                                 <table class="table-overview applist" summary="#">
                                   <caption><a href="#" class="section"></a><h2>TICKETS POR USUARIO</h2></caption>
-                                        {% for k,v  in threads %}
+                                        {% for k,v  in threads.items %}
                                             <tr>
                                               <th scope="row">{{k}}</th>
                                                <td> <a href="#" class="changelink icon"></a> </td>
                                                <td>&nbsp;</td>
-                                               <td>>{{vr}}></td>
+                                               <td>{{v}}</td>
                                                <td>&nbsp;</td>
                                             </tr>
                                         {% endfor %}
