@@ -17,12 +17,6 @@ TICKET_STATUS_CHOICES = (
     (CLOSED,'Closed'),
 )
 
-def split(s, l=[]): #funcion recursiva que parte el texto en strings de 140 caracteres
-    if len(s) < 140:
-        l.append(s)
-        return l
-    l.append(s[:140-len(settings.CONTINUA)]+settings.CONTINUA)
-    return split(s[140-len(settings.CONTINUA):], l)
 
 
 class Thread(models.Model):
@@ -56,19 +50,4 @@ class Bulletin(models.Model):
 
     def __unicode__(self):
         return u'%s-%s' % (self.user, self.important)
-
-def post_msg_to_twitter(sender, instance, created, **kwargs):
-    own_msg = None
-    if not instance.creator:
-        for message in split(instance.message):
-            try:
-                own_msg = api.PostDirectMessage(message, instance.thread.user_id)
-            except:
-                pass
-        if own_msg:
-            instance.message_id = str(own_msg.id)
-            instance.creator = True
-            instance.save()
-
-post_save.connect(post_msg_to_twitter, sender=Message)
 
