@@ -4,8 +4,7 @@ from django.conf import settings
 from django.forms import TextInput, Textarea
 from django.db import models
 from customerservice.models import Thread, Message , Bulletin
-
-
+from django.contrib.auth.models import User, Group
 
 class MessageStackedInline(admin.StackedInline):
     exclude = ('creator', 'sender', 'message_id')
@@ -20,7 +19,8 @@ class MessageStackedInline(admin.StackedInline):
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, ]
     list_filter = ('status', )
-    readonly_fields = ('screen_name', 'user_id', 'date_created')
+    #if User.objects.filter(groups__name='Customer Service Agent'):
+    readonly_fields = ('screen_name', 'user_id', 'date_created')      
     list_display = ('screen_name', 'date_created')
     
 
