@@ -51,3 +51,10 @@ class Bulletin(models.Model):
     def __unicode__(self):
         return u'%s-%s' % (self.user, self.important)
 
+
+class Pull(models.Model):
+    date = models.DateTimeField(auto_now=True)
+    message_id = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return u'%s - %s' % (str(self.date), str(self.message_id))
