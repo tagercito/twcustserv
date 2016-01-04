@@ -26,6 +26,10 @@ class Thread(models.Model):
     status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES, default=OPEN)
     assigned_to = models.ForeignKey('auth.User', null=True, blank=True )
     
+    class Meta:
+        verbose_name = 'Tweets'
+        verbose_name_plural = 'Tweets'
+
     def __unicode__(self):
         return self.screen_name
 
@@ -41,20 +45,15 @@ class Message(models.Model):
     def __unicode__(self):
         return self.message_id if self.message_id else ''
 
-class Pull(models.Model):
-    """docstring for Pull"""
-    message_id = models.CharField(max_length=20, null=True, blank=True)
-    
-    def __unicode__(self):
-        return self.message_id
-        
-        
-
 class Bulletin(models.Model):
     user = models.ForeignKey('auth.User', null=True, blank=True)
     text = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
     important = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Noticias'
+        verbose_name_plural = 'Noticias'
 
     def __unicode__(self):
         return u'%s-%s' % (self.user, self.important)
@@ -62,7 +61,7 @@ class Bulletin(models.Model):
 
 class Pull(models.Model):
     date = models.DateTimeField(auto_now=True)
-    message_id = models.IntegerField(default=0)
+    message_id = models.CharField(max_length=255)
 
     def __unicode__(self):
         return u'%s - %s' % (str(self.date), str(self.message_id))

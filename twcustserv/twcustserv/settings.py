@@ -65,15 +65,18 @@ WSGI_APPLICATION = 'twcustserv.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'twitter',
+        'USER': 'root',
+        'PASSWORD': 'l4gr4nput4',
+        'HOST':'',
+        'PORT':''
     }
 }
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-AR'
 
 TIME_ZONE = 'US/Eastern'
 
@@ -90,8 +93,8 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 )
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': 'Ticketek CS Dashboard',
-    'MENU_EXCLUDE': ('auth.group', 'auth'),
+    'ADMIN_NAME': 'Dashboard',
+    'MENU_EXCLUDE': ('auth.group',),
     'MENU_ICONS': {
         'customerservice': 'icon-envelope',
     }
@@ -108,6 +111,7 @@ print TEMPLATES_DIRS
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/opt/dj-sites/twitter-env/twitter/twcustserv/twcustserv/static/' 
    
 ##### SETTINGS for the Twitter Customer Service Account : @apimtechtest ##### 
 

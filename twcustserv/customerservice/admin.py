@@ -4,8 +4,6 @@ from django.conf import settings
 from django.forms import TextInput, Textarea
 from django.db import models
 from customerservice.models import Thread, Message , Bulletin
-
-=======
 import twitter
 from django.conf import settings
 
@@ -19,8 +17,6 @@ def split(s, signature, l=[]): #funcion recursiva que parte el texto en strings 
     return split(s[140-len(settings.CONTINUA):], signature,  l)
 
 
->>>>>>> 2957113fc789f4ca0b1f0cdb3a2c9b6d91ce8d35
-
 class MessageStackedInline(admin.StackedInline):
     exclude = ('creator', 'sender', 'message_id')
     readonly_fields = ('user',)
@@ -33,11 +29,8 @@ class MessageStackedInline(admin.StackedInline):
 
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, ]
-     
-=======
     list_filter = ('status', 'assigned_to' )
     readonly_fields = ['screen_name', 'user_id', 'date_created']
->>>>>>> 2957113fc789f4ca0b1f0cdb3a2c9b6d91ce8d35
     list_display = ('screen_name', 'date_created')
     
     def get_readonly_fields(self, request, obj=None):
