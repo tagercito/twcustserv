@@ -1,0 +1,120 @@
+<!doctype html>
+<html ng-app="CustomerService">
+    <head>
+        <title>Customer Service</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="/static/js/ng-file-upload-shim.js"></script>
+        <script src="/static/js/ng-file-upload.js"></script>
+
+        <script>
+            var app = angular.module('CustomerService', ['ngFileUpload']);
+            app.config(function($httpProvider) {
+                $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+                $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+            });
+            app.controller('TopicController', function ($rootScope, $scope, $http, Upload) {
+                $scope.topics = [];
+                $scope.selected = null
+                $http({
+                    method: 'GET',
+                    url: '/customerservice/topics/'
+                }).then(function successCallback(response) {
+                    $scope.topics = response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                })
+
+                $scope.selectTopic = function(topic){
+                    $scope.selected = topic
+                }
+                $scope.isSelected = function(topic){
+
+                }
+                $scope.selectedTopic = function(topic){
+                    if ($scope.selected == topic || topic in $scope.selected.children){
+                        return true;
+                    }
+                    return false;
+                }
+                $scope.submitEnquiry = function(topic){
+                    var enquiry_data = {"topic": topic.pk};
+                    var file = null;
+                    for (field in topic.form){
+                        if (topic.form[field].field_type != 'file'){
+                            var name = topic.form[field].name;
+                            enquiry_data[name] = topic.form[field].value;
+                        }else{
+                            file = topic.form[field].value
+                        }
+                    }
+                    array = new Array();
+                    for (key in enquiry_data) {
+                        array.push(key + '=' + enquiry_data[key])
+                    }
+                    params = array.join('&');
+                    $http({
+                        method: 'POST',
+                        url: '/customerservice/topics/',
+                        data: params,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (file){
+                            Upload.upload({
+                                url: '/customerservice/file/',
+                                data: {file: file, 'enquiry': response.data}
+                            }).then(function (resp) {
+                                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                                alert( 'estaremos comunicandonos con usted a la brevedad')
+                            }, function (resp) {
+                                console.log('Error status: ' + resp.status);
+                            }, function (evt) {
+                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                            });
+                        }else{
+                                                            alert( 'estaremos comunicandonos con usted a la brevedad')
+
+                        }
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    })
+
+                }
+
+            });
+
+        </script>
+        <script type="text/ng-template" id="categoryTree">
+        {%verbatim %}{{ topic.title }} {% endverbatim %}
+        <div>
+            {%verbatim %}{{ topic.body }} {% endverbatim %}
+            <div ng-if="topic.form">
+                <form ng-submit="submitEnquiry(topic)"></form>
+                    <div class="form-group" ng-repeat="field in topic.form">
+                     <label>{% verbatim %}{{ field.name }}{% endverbatim %}</label>
+                     <input type="field.field_type" class="form-control" ng-model="field.value" required ng-if="field.field_type != 'file'">
+                     <div class="badge" style="cursor:pointer;" ngf-select ng-model="field.value" name="file" ngf-pattern="'image/*'" ng-if="field.field_type == 'file'"
+                        ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" >Seleccionar Archivo</div>
+                      </div>
+                <button type="submit" class="btn" value="enviar" ng-click="submitEnquiry(topic)">Enviar</button><br>
+                </form>
+            </div>
+            <ul ng-if="topic.children" class="list-group">
+                <li ng-repeat="topic in topic.children" ng-include="'categoryTree'" class="list-group-item">
+                </li>
+            </ul>
+        </div>
+        </script>
+
+    </head>
+
+    <body ng-controller="TopicController">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="topic in topics" ng-include="'categoryTree'" "></li>
+    </ul>
+    </body>
+</html>

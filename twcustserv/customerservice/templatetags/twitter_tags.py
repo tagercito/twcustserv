@@ -47,7 +47,7 @@ def get_user_ticket_quantity(user):
     users = dict(nadie=0)
     for thread in Thread.objects.filter(status='OP'):
         if thread.assigned_to:
-            if users.get(thread.assigned_to, None):
+            if not users.get(thread.assigned_to.username):
                 users[thread.assigned_to.username] = 1
             else:
                 users[thread.assigned_to.username] += 1
