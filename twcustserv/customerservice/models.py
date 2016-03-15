@@ -31,7 +31,7 @@ class Thread(models.Model):
 
 class Message(models.Model):
     creator = models.BooleanField(default=False)
-    thread = models.ForeignKey(Thread)
+    thread = models.ForeignKey(Thread, related_name="thread_messages")
     message = models.TextField()
     sender = models.CharField(max_length=140, null=True, blank=True)
     message_id = models.CharField(max_length=20, null=True, blank=True)

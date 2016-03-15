@@ -25,6 +25,47 @@
 
 <div id="suit-center" class="suit-column">
     <div class="row">
+        {% with bulletins=user|get_lastest_bulletins %}
+        {% if bulletins %}
+        <div class="span12">
+            <table class="table-overview applist" summary="#">
+                <caption><a href="#" class="section"></a><h2>LATEST NEWS</h2></caption>
+
+                    {% for bulletin in bulletins %}
+                <tr>
+                                  <th scope="row">{{bulletin.user.username}}</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td>{{bulletin.text}}</td>
+                   <td>&nbsp;</td>
+                </tr>
+                    {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% with imp_bulletins=user|get_important_bulletins %}
+        {% if imp_bulletins %}
+        <div class="span12">
+            <table class="table-overview applist" summary="#">
+                <caption><a href="#" class="section"></a><h2>IMPORTANT NEWS</h2></caption>
+                    {% for bulletin in imp_bulletins %}
+
+                <tr>
+                    <th scope="row">{{bulletin.user.username}}</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td>{{bulletin.text}}</td>
+                   <td>&nbsp;</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <div class="row">
         {% with threads=user|get_messages_since_last_login %}
         {% if threads %}
         <div class="span5">
@@ -111,47 +152,6 @@
                 <!--  final del codigo Permissions -->
 
         </div>
-    </div>
-    <div class="row">
-        {% with bulletins=user|get_lastest_bulletins %}
-        {% if bulletins %}
-        <div class="span12">
-            <table class="table-overview applist" summary="#">
-                <caption><a href="#" class="section"></a><h2>LATEST NEWS</h2></caption>
-
-                    {% for bulletin in bulletins %}
-                <tr>
-                                  <th scope="row">{{bulletin.user.username}}</th>
-                   <td> <a href="#" class="changelink icon"></a> </td>
-                   <td>&nbsp;</td>
-                   <td>{{bulletin.text}}</td>
-                   <td>&nbsp;</td>
-                </tr>
-                    {% endfor %}
-            </table>
-        </div>
-        {% endif %}
-        {% endwith %}
-        {% with imp_bulletins=user|get_important_bulletins %}
-        {% if imp_bulletins %}
-        <div class="span12">
-            <table class="table-overview applist" summary="#">
-                <caption><a href="#" class="section"></a><h2>IMPORTANT NEWS</h2></caption>
-                    {% for bulletin in imp_bulletins %}
-
-                <tr>
-                    <th scope="row">{{bulletin.user.username}}</th>
-                   <td> <a href="#" class="changelink icon"></a> </td>
-                   <td>&nbsp;</td>
-                   <td>{{bulletin.text}}</td>
-                   <td>&nbsp;</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        {% endif %}
-        {% endwith %}
-
     </div>
 </div>
 

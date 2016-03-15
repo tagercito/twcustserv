@@ -92,6 +92,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 SUIT_CONFIG = {
     'ADMIN_NAME': 'Ticketek CS Dashboard',
     'MENU_EXCLUDE': ('auth.group', 'auth'),
+    'SEARCH_URL': '/admin/customerservice/thread/',
     'MENU_ICONS': {
         'customerservice': 'icon-envelope',
     }
@@ -101,8 +102,6 @@ TEMPLATES_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )        
   
-print TEMPLATES_DIRS 
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
