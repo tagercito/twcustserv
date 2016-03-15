@@ -70,13 +70,13 @@
         {% if threads %}
         <div class="span5">
             <table class="table-overview applist" summary="#">
-              <caption><a href="#" class="section"></a><h2>TICKETS SINCE LAST LOGIN</h2></caption>
+              <caption><a href="#" class="section"></a><h2>TICKETS DESDE ULTIMO LOGIN</h2></caption>
                     {% for thread in threads %}
                         <tr>
                           <th scope="row">{{thread.screen_name}}</th>
                            <td> <a href="#" class="changelink icon"></a> </td>
                            <td>&nbsp;</td>
-                           <td><a href="{% url 'admin:customerservice_thread_change' thread.pk %}" class="#">GO</a></td>
+                           <td><a href="{% url 'admin:customerservice_thread_change' thread.pk %}" class="#">ir</a></td>
                            <td>&nbsp;</td>
                         </tr>
                     {% endfor %}
@@ -93,10 +93,10 @@
 
         <div class="span5">
             <table class="table-overview applist" summary="#">
-              <caption><a href="#" class="section"></a><h2>TICKETS BY STATUS</h2></caption>
+              <caption><a href="#" class="section"></a><h2>TICKETS POR ESTADO</h2></caption>
 
                 <tr>
-                  <th scope="row">OPEN</th>
+                  <th scope="row">Abiertos</th>
                    <td> <a href="#" class="changelink icon"></a> </td>
                    <td>&nbsp;</td>
                    <td><center><a href="{% url 'admin:customerservice_thread_changelist' %}?status__exact=OP" class="#">{{"OP"|get_thread_count}}</a></center></td>
@@ -104,7 +104,7 @@
 
               </tr>
               <tr>
-                  <th scope="row">PENDING</th>
+                  <th scope="row">Pendientes</th>
                    <td> <a href="#" class="changelink icon"></a> </td>
                    <td>&nbsp;</td>
                    <td><center><a href="{% url 'admin:customerservice_thread_changelist' %}?status__exact=PE" class="#">{{"PE"|get_thread_count}}</a></center></td>
@@ -112,7 +112,7 @@
 
               </tr>
               <tr>
-                  <th scope="row">CLOSED</th>
+                  <th scope="row">Cerrados</th>
                    <td> <a href="#" class="changelink icon"></a> </td>
                    <td>&nbsp;</td>
                    <td><center><a href="{% url 'admin:customerservice_thread_changelist' %}?status__exact=CL" class="#">{{"CL"|get_thread_count}}</a></center></td>
@@ -152,6 +152,47 @@
                 <!--  final del codigo Permissions -->
 
         </div>
+    </div>
+    <div class="row">
+        {% with bulletins=user|get_lastest_bulletins %}
+        {% if bulletins %}
+        <div class="span12">
+            <table class="table-overview applist" summary="#">
+                <caption><a href="#" class="section"></a><h2>Ultimas Noticias</h2></caption>
+
+                    {% for bulletin in bulletins %}
+                <tr>
+                                  <th scope="row">{{bulletin.user.username}}</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td>{{bulletin.text}}</td>
+                   <td>&nbsp;</td>
+                </tr>
+                    {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% with imp_bulletins=user|get_important_bulletins %}
+        {% if imp_bulletins %}
+        <div class="span12">
+            <table class="table-overview applist" summary="#">
+                <caption><a href="#" class="section"></a><h2>Noticias importantes</h2></caption>
+                    {% for bulletin in imp_bulletins %}
+
+                <tr>
+                    <th scope="row">{{bulletin.user.username}}</th>
+                   <td> <a href="#" class="changelink icon"></a> </td>
+                   <td>&nbsp;</td>
+                   <td>{{bulletin.text}}</td>
+                   <td>&nbsp;</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+        {% endwith %}
+
     </div>
 </div>
 

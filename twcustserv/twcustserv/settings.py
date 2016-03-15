@@ -65,15 +65,25 @@ WSGI_APPLICATION = 'twcustserv.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'twitter',
+        'USER': 'root',
+        'PASSWORD': 'l4gr4nput4',
+        'HOST':'',
+        'PORT':''
     }
 }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-AR'
 
 TIME_ZONE = 'US/Eastern'
 
@@ -100,14 +110,22 @@ SUIT_CONFIG = {
 
 TEMPLATES_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
-)        
+    '/Users/tagercito/devel/twitter/twcustserv/customerservice/templates/'
+)
+
   
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-   
+STATIC_ROOT = '/Users/tagercito/devel/twitter/twcustserv/twcustserv/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    '/Users/tagercito/devel/twitter/twcustserv/twcustserv/static/',
+)
+
 ##### SETTINGS for the Twitter Customer Service Account : @apimtechtest ##### 
 
 CONTINUA=' (cont)' #Add this string to every splitted replied message that Representative sends
@@ -126,3 +144,11 @@ ANSWER_TO_DIRECT_MESSAGE = 'Gracias @%s por contactarnos, te responderemos a la 
 OPEN = 'OP'
 PENDING = 'PE'       
 CLOSED = 'CL' 
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ayuda@ticketek.com.ar'
+EMAIL_HOST_PASSWORD = 'sentidocomun'
+DEFAULT_EMAIL_FROM = 'ayuda@ticketek.com.ar'
+
