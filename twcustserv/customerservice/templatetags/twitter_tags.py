@@ -10,7 +10,7 @@ def get_thread_count(status):
 
 def get_messages_since_last_login(user):
     last_login = user.last_login
-    threads = Thread.objects.filter(message__date_created__lte=last_login).distinct()
+    threads = Thread.objects.filter(thread_messages__date_created__lte=last_login).distinct().order_by("-thread_messages__date_created")
     return threads
 
 
@@ -47,7 +47,7 @@ def get_user_ticket_quantity(user):
     users = dict(nadie=0)
     for thread in Thread.objects.filter(status='OP'):
         if thread.assigned_to:
-            if not users.get(thread.assigned_to.username):
+            if not users.get(thread.assigned_to.username, None):
                 users[thread.assigned_to.username] = 1
             else:
                 users[thread.assigned_to.username] += 1

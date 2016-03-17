@@ -35,9 +35,14 @@ class ThreadAdmin(admin.ModelAdmin):
     list_filter = ('status', 'assigned_to' )
     readonly_fields = ['screen_name', 'user_id', 'date_created']
     list_display = ('screen_name', 'date_created')
+    search_fields = ("screen_name", "user_id", "status", "thread_messages__message")
+
     
     def get_readonly_fields(self, request, obj=None):
-        user_group = request.user.groups.all()[0]
+        try:
+            user_group = request.user.groups.all()[0]
+        except:
+            return self.readonly_fields + ['assigned_to']
         if 'Administrador' == user_group.name or 'Supervisor' in user_group.name:
             return self.readonly_fields
         return self.readonly_fields + ['assigned_to']
