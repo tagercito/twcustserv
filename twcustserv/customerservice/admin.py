@@ -50,6 +50,9 @@ class ThreadAdmin(admin.ModelAdmin):
         if css_class:
             return {'class': css_class, 'data': Thread}
 
+    def has_add_permission(self, request):
+        return False
+
     def save_formset(self, request, form, formset, change):
         api = twitter.Api(consumer_key=settings.CONSUMER_KEY, consumer_secret=settings.CONSUMER_SECRET,
                           access_token_key=settings.ACCESS_TOKEN_KEY, access_token_secret=settings.ACCESS_TOKEN_SECRET)
@@ -138,6 +141,8 @@ class EnquiryAdmin(admin.ModelAdmin):
     inlines = [EnquiryMessageInline]
     actions = [bulk_send]
 
+    def has_add_permission(self, request):
+        return False
 
     def get_urls(self):
         urls = super(EnquiryAdmin, self).get_urls()
