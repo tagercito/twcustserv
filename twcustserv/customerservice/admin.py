@@ -82,7 +82,7 @@ class ThreadAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
             'classes': ('suit-tab', 'suit-tab-general',),
-            'fields': ['screen_name', 'uer_id', 'date_created', 'status', 'assigned_to', 'email']
+            'fields': ['screen_name', 'user_id', 'date_created', 'status', 'assigned_to', 'email']
         }),
 
     ]
