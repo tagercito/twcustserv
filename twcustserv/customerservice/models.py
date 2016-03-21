@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 import twitter
 from django.conf import settings
+from django.contrib.auth.models import User
 
 api = twitter.Api(consumer_key=settings.CONSUMER_KEY, consumer_secret=settings.CONSUMER_SECRET, access_token_key=settings.ACCESS_TOKEN_KEY, access_token_secret=settings.ACCESS_TOKEN_SECRET)  
 
@@ -24,9 +25,21 @@ class Thread(models.Model):
     user_id = models.CharField(max_length=140)
     date_created = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES, default=OPEN)
-    assigned_to = models.ForeignKey('auth.User', null=True, blank=True)
+    assigned_to = models.ForeignKey('auth.User', null=True, blank=True, related_name="assigned_to_thread")
     email = models.EmailField(null=True, blank=True)
-    
+    w_user = models.ForeignKey('auth.User', null=True, blank=True, related_name="tweet_user")
+
+    def save(self, *args, **kwargs):
+        if self.email:
+            try:
+               user = User.objects.get(email=self.email)
+            except:
+                pass
+            else:
+                self.w_user = user
+
+        super(Thread, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Tweets'
         verbose_name_plural = 'Tweets'
@@ -116,8 +129,18 @@ class Enquiry(models.Model):
     file = models.FileField(upload_to='enquiry', null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=False)
-    user_id = models.CharField(max_length=255)
+    user = models.ForeignKey('auth.User', null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if self.email:
+            try:
+               user =  User.objects.get(email=self.email)
+            except:
+                pass
+            else:
+                self.user = user
+
+        super(Enquiry, self).save(*args, **kwargs)
 
     def image_thumb(self):
         return '<img src="/media/%s" width="100" height="100" />' % (self.file)

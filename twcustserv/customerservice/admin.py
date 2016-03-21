@@ -264,7 +264,7 @@ class ProfileInLine(admin.StackedInline):
                 [field.name for field in self.opts.local_many_to_many]))
 
 class UserAdmin(AuthUserAdmin):
-    inlines = [AccountInline, ProfileInLine]
+    inlines = [AccountInline, ProfileInLine, PurchaseInLine]
     suit_classes = 'suit-tab suit-tab-general'
     search_fields = ('username', 'first_name', 'last_name', 'email', 'profile__doc_num', 'account_user__home_phone')
 
@@ -289,7 +289,7 @@ class UserAdmin(AuthUserAdmin):
             return self.add_fieldsets
         return super(UserAdmin, self).get_fieldsets(request, obj)
 
-    suit_form_tabs = (('general', 'Usuario'), ('account', 'Account'), ('profile', 'Profile'))
+    suit_form_tabs = (('general', 'Usuario'), ('account', 'Account'), ('profile', 'Profile'), ('purchase', 'Purchase'))
 
 # unregister old user admin
 admin.site.unregister(User)
