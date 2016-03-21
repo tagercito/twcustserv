@@ -43,6 +43,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     #'django.contrib.auth.user',
     #'django.contrib.auth.group',
+    'accounts',
+    'purchase',
+    'shows',
+    'profiles'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,8 +82,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'mydatabase',
+    },
+    'websource': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'websource',
+        'USER': 'wsuser',
+        'PASSWORD': 'h4nksc0rp10.',
+        'HOST': '10.5.6.204',
+        'PORT': '',
     }
 }
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -152,3 +166,4 @@ EMAIL_HOST_USER = 'ayuda@ticketek.com.ar'
 EMAIL_HOST_PASSWORD = 'sentidocomun'
 DEFAULT_EMAIL_FROM = 'ayuda@ticketek.com.ar'
 
+DATABASE_ROUTERS = ['customerservice.routers.AuthRouter']

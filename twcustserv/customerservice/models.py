@@ -121,6 +121,7 @@ class Enquiry(models.Model):
 
     def image_thumb(self):
         return '<img src="/media/%s" width="100" height="100" />' % (self.file)
+
     image_thumb.allow_tags = True
 
 class EnquiryResponse(models.Model):
@@ -131,6 +132,8 @@ class EnquiryResponse(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     user = models.ForeignKey('auth.User', null=True, blank=True)
     message_id = models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey('auth.User', null=True, blank=True)
+
 
     def __unicode__(self):
         return u'%s' % str(self.date_created)

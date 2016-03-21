@@ -10,6 +10,14 @@ from django.http import HttpResponseRedirect
 import twitter
 import email
 from django.conf.urls import patterns, include, url
+from purchase.models import Purchase, PurchaseItem
+from transactions.models import Transaction
+from accounts.models import Account
+from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
+from django.utils.translation import ugettext_lazy as _
+from profiles.models import UserProfile
+
+from django.contrib.auth.models import User
 
 def split(s, signature, l=[]): #funcion recursiva que parte el texto en strings de 140 caracteres
     if len(s) < 140-len(signature):
@@ -190,10 +198,108 @@ class EnquiryAdmin(admin.ModelAdmin):
     )
 
 
+class TransactionInline(admin.StackedInline):
+    model = Transaction
+    extra = 0
+    readonly_fields = ["date", "fmj_date", "tnum", "title1", "title2", "title3",
+                       "title4", "title5", "title6", "scomment", "stitle", "where", "who", "when",
+                       "location", "usher1", "usher2", "account",]
+
+
+
+class PurchaseItemInline(admin.StackedInline):
+    model = PurchaseItem
+    extra = 0
+    readonly_fields = ['price_category', 'quantity', 'item_data']
+
+
+class PurchaseAdmin(admin.ModelAdmin):
+    inlines = [TransactionInline, PurchaseItemInline]
+    extra = 0
+    #list_filter = ['performance__show']
+    search_fields = ('performance__show__name', 'performance__perf_code')
+
+    def get_readonly_fields(self, request, obj=None):
+        if self.declared_fieldsets:
+            return flatten_fieldsets(self.declared_fieldsets)
+        else:
+            return list(set(
+                [field.name for field in self.opts.local_fields] +
+                [field.name for field in self.opts.local_many_to_many]
+            ))
+
+class PurchaseInLine(admin.StackedInline):
+    model = Purchase
+    extra = 0
+    can_delete = False
+    suit_classes = 'suit-tab suit-tab-purchase'
+
+class AccountInline(admin.StackedInline):
+    model = Account
+    can_delete = False
+    extra = 0
+    suit_classes = 'suit-tab suit-tab-account'
+
+    def get_readonly_fields(self, request, obj=None):
+        if self.declared_fieldsets:
+            return flatten_fieldsets(self.declared_fieldsets)
+        else:
+            return list(set(
+                [field.name for field in self.opts.local_fields] +
+                [field.name for field in self.opts.local_many_to_many]
+            ))
+
+class ProfileInLine(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    extra = 0
+    suit_classes = 'suit-tab suit-tab-profile'
+
+    def get_readonly_fields(self, request, obj=None):
+        if self.declared_fieldsets:
+            return flatten_fieldsets(self.declared_fieldsets)
+        else:
+            return list(set(
+                [field.name for field in self.opts.local_fields] +
+                [field.name for field in self.opts.local_many_to_many]))
+
+class UserAdmin(AuthUserAdmin):
+    inlines = [AccountInline, ProfileInLine]
+    suit_classes = 'suit-tab suit-tab-general'
+    search_fields = ('username', 'first_name', 'last_name', 'email', 'profile__doc_num', 'account_user__home_phone')
+
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password'), 'classes': ('suit-tab', 'suit-tab-general',)}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email'), 'classes': ('suit-tab', 'suit-tab-general',)}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions'), 'classes': ('suit-tab', 'suit-tab-general',)}),
+
+       # (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+    )
+
+    def get_fieldsets(self, request, obj=None):
+        if not obj:
+            return self.add_fieldsets
+        return super(UserAdmin, self).get_fieldsets(request, obj)
+
+    suit_form_tabs = (('general', 'Usuario'), ('account', 'Account'), ('profile', 'Profile'))
+
+# unregister old user admin
+admin.site.unregister(User)
+# register new user admin
+admin.site.register(User, UserAdmin)
+
 admin.site.register(Bulletin, BulletinAdmin)
 admin.site.register(Thread, ThreadAdmin)
 admin.site.register(Topic, TopicAdmin)
 admin.site.register(TopicForm, TopicFormAdmin)
 admin.site.register(Enquiry, EnquiryAdmin)
-
-
+admin.site.register(Purchase, PurchaseAdmin)
+admin.site.register(Account)
