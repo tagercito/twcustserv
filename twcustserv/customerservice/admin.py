@@ -274,7 +274,7 @@ class ProfileInLine(admin.StackedInline):
 class UserAdmin(AuthUserAdmin):
     inlines = [AccountInline, ProfileInLine, PurchaseInLine]
     suit_classes = 'suit-tab suit-tab-general'
-    search_fields = ('username', 'first_name', 'last_name', 'email', 'profile__doc_num', 'account_user__home_phone')
+    search_fields = ('username', 'first_name', 'last_name', 'email')
 
 
     fieldsets = (
