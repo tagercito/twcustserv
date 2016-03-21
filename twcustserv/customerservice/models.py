@@ -18,8 +18,6 @@ TICKET_STATUS_CHOICES = (
     (CLOSED,'Closed'),
 )
 
-
-
 class Thread(models.Model):
     screen_name = models.CharField(max_length=100)
     user_id = models.CharField(max_length=140)
@@ -128,7 +126,7 @@ class Enquiry(models.Model):
     email = models.CharField(max_length=255)
     file = models.FileField(upload_to='enquiry', null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(default=False)
+    status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES, default=OPEN)
     user = models.ForeignKey('auth.User', null=True, blank=True)
 
     def save(self, *args, **kwargs):

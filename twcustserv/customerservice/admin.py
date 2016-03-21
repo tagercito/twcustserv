@@ -154,6 +154,14 @@ class EnquiryAdmin(admin.ModelAdmin):
     inlines = [EnquiryMessageInline]
     actions = [bulk_send]
 
+    def suit_row_attributes(self, Enquiry, request):
+        css_class = {
+            settings.CLOSED: 'error',
+            settings.PENDING: 'warning',
+            settings.OPEN: 'success'}.get(Enquiry.status)
+        if css_class:
+            return {'class': css_class, 'data': Thread}
+
     def has_add_permission(self, request):
         return False
 
