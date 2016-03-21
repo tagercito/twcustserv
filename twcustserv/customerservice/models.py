@@ -13,9 +13,9 @@ PENDING = 'PE'
 CLOSED = 'CL' 
 
 TICKET_STATUS_CHOICES = (
-    (OPEN,'Open'),
-    (PENDING,'Pending'),
-    (CLOSED,'Closed'),
+    (OPEN, 'Open'),
+    (PENDING, 'Pending'),
+    (CLOSED, 'Closed'),
 )
 
 class Thread(models.Model):
