@@ -79,7 +79,7 @@ class ThreadAdmin(admin.ModelAdmin):
                     for message in split(obj.message, signature):
                         try:
                             own_msg = api.PostDirectMessage(message, obj.thread.user_id)
-                            print message
+                            print(message)
                         except:
                             pass
                     if own_msg:
@@ -167,9 +167,9 @@ class EnquiryAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         urls = super(EnquiryAdmin, self).get_urls()
-        my_urls = patterns('',
-            (r'bulk_send/(?P<ids>.+)/$', self.admin_site.admin_view(BulkSend.as_view())),
-        )
+        my_urls = [
+            url(r'bulk_send/(?P<ids>.+)/$', self.admin_site.admin_view(BulkSend.as_view())),
+        ]
         return my_urls + urls
 
     def save_formset(self, request, form, formset, change):

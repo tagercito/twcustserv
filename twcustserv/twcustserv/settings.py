@@ -25,15 +25,12 @@ SECRET_KEY = 'e4!hj8-o=-19jsqb*j7os!ipvr68#!=-9u=9o3^c4u-yy0ghy0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = (
-    'customerservice',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,15 +38,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     #'django.contrib.auth.user',
     #'django.contrib.auth.group',
     'accounts',
+    'customerservice',
+    'profiles',
     'purchase',
     'shows',
-    'profiles'
+    'transactions'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 ROOT_URLCONF = 'twcustserv.urls'
 
@@ -84,11 +84,11 @@ DATABASES = {
         'NAME': 'mydatabase',
     },
     'websource': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'websource',
-        'USER': 'wsuser',
-        'PASSWORD': 'h4nksc0rp10.',
-        'HOST': '10.5.6.204',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'twcustserv',
+        'USER': 'twcustserv',
+        'PASSWORD': 'twcustserv',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
@@ -107,11 +107,27 @@ USE_L10N = True
 
 USE_TZ = True
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, "templates"),
+            ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.core.context_processors.static",
+                "social.apps.django_app.context_processors.backends",
+                "social.apps.django_app.context_processors.login_redirect"
+            ],
+            'debug': True
+        },
+    },
+]
 
 SUIT_CONFIG = {
     'ADMIN_NAME': 'Ticketek CS Dashboard',
@@ -122,10 +138,10 @@ SUIT_CONFIG = {
     }
 }
 
-TEMPLATES_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-    '/Users/tagercito/devel/twitter/twcustserv/customerservice/templates/'
-)
+#TEMPLATES_DIRS = (
+    #os.path.join(BASE_DIR, 'templates'),
+    #'/Users/tagercito/devel/twitter/twcustserv/customerservice/templates/'
+#)
 
   
 
@@ -133,12 +149,12 @@ TEMPLATES_DIRS = (
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/Users/tagercito/devel/twitter/twcustserv/twcustserv/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    '/Users/tagercito/devel/twitter/twcustserv/twcustserv/static/',
-)
+#STATICFILES_DIRS = [
+    #os.path.join(BASE_DIR, "static"),
+    #os.path.join(BASE_DIR, "twcustserv/twcustserv/static/"),
+#]
 
 ##### SETTINGS for the Twitter Customer Service Account : @apimtechtest ##### 
 

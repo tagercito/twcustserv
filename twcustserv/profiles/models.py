@@ -52,7 +52,7 @@ class UserProfile(models.Model):
     doc_type = models.CharField(_('Document Type'), max_length=10, choices=DOC_TYPES, null=True)
     doc_num = models.CharField(_('Document Number'), max_length=10, null=True)
     phone = models.CharField(_('Phone number'), max_length=32)
-    source = models.CharField(_('Registration Source'), max_length=10, choices=REGISTRATION_SOURCES.iteritems())
+    source = models.CharField(_('Registration Source'), max_length=10, choices=REGISTRATION_SOURCES.items())
     newsletter = models.BooleanField(_("Accept newsletter"))
     user_id_legacy = models.CharField(_('ID from Legacy'), max_length=32, null=True)
     user_account_id = models.CharField(_('Accound ID'), max_length=32, null=True)

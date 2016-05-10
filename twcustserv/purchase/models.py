@@ -4,7 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 class Purchase(models.Model):
     performance = models.ForeignKey('shows.Performance', null=False)
 #    price_categories = models.ManyToManyField('shows.PriceCategory', related_name = 'purchases', null=False)
-    items = models.ManyToManyField('shows.PriceCategory', related_name='items', null=False, through='purchase.PurchaseItem')
+    items = models.ManyToManyField('shows.PriceCategory',
+                                   related_name='items',
+                                   through='purchase.PurchaseItem')
     user = models.ForeignKey('auth.User', related_name='purchases', null=False)
     date = models.DateTimeField(auto_now_add=True)
     delivery = models.ForeignKey('shows.Delivery', null=False, blank=True)
