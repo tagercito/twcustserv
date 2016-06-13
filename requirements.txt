@@ -17,3 +17,5 @@ six
 django-suit
 python-social-auth
 psycopg2
+redis
+django-celery
