@@ -22,17 +22,76 @@ TICKET_STATUS_CHOICES = (
 )
 
 
-class Thread(models.Model):
-    screen_name = models.CharField(max_length=100)
-    user_id = models.CharField(max_length=140)
-    date_created = models.DateTimeField(auto_now=True)
+class Contact(models.Model):
+
+    OPEN = 'OP'
+    PENDING = 'PE'
+    CLOSED = 'CL' 
+
+    TICKET_STATUS_CHOICES = (
+        (OPEN, 'Open'),
+        (PENDING, 'Pending'),
+        (CLOSED, 'Closed'),
+    )
+
+    THREAD = 0
+    ENQUIRY = 1
+    CONTACT_TYPE_CHOICES = (
+        (THREAD, 'Twitter'),
+        (ENQUIRY, 'Enquiry')
+    )
+
+    # common fields
+    email = models.EmailField(null=True, blank=True)
     status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES,
                               default=OPEN)
+    created = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey('auth.User', null=True, blank=True)
+
+    # non common fields topic
+    topic = models.ForeignKey("Topic")
+    enquiry = models.TextField()
+    file = models.FileField(upload_to='enquiry', null=True, blank=True)
+
+    # non common fields thread
+    screen_name = models.CharField(max_length=100)
+    user_id = models.CharField(max_length=140)
     assigned_to = models.ForeignKey('auth.User', null=True, blank=True,
-                                    related_name="assigned_to_thread")
+                                    related_name="threads_assigned")
+
+    # type of contact
+    type = models.PositiveSmallIntegerField(choices=CONTACT_TYPE_CHOICES)
+
+    def save(self, *args, **kwargs):
+        if self.email:
+            try:
+                self.user = User.objects.get(email=self.email)
+            except:
+                pass
+        super(Contact, self).save(*args, **kwargs)
+
+    def image_thumb(self):
+        if self.file is not None:
+            path = "/media/{}".format(self.file)
+        else:
+            path = ""
+        return '<img src="{}" width="100" height="100" />'.format(path)
+
+    image_thumb.allow_tags = True
+
+
+class Thread(models.Model):
+
     email = models.EmailField(null=True, blank=True)
+    status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES,
+                              default=OPEN)
+    date_created = models.DateTimeField(auto_now=True)
     w_user = models.ForeignKey('auth.User', null=True, blank=True,
                                related_name="tweet_user")
+    screen_name = models.CharField(max_length=100)
+    user_id = models.CharField(max_length=140)
+    assigned_to = models.ForeignKey('auth.User', null=True, blank=True,
+                                    related_name="assigned_to_thread")
 
     def save(self, *args, **kwargs):
         if self.email:
@@ -54,14 +113,14 @@ class Thread(models.Model):
 
 
 class Enquiry(models.Model):
-    topic = models.ForeignKey("Topic")
-    enquiry = models.TextField()
     email = models.CharField(max_length=255)
-    file = models.FileField(upload_to='enquiry', null=True, blank=True)
-    date = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=TICKET_STATUS_CHOICES,
                               default=OPEN)
+    date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey('auth.User', null=True, blank=True)
+    topic = models.ForeignKey("Topic")
+    enquiry = models.TextField()
+    file = models.FileField(upload_to='enquiry', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.email:
