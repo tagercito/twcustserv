@@ -57,8 +57,8 @@ class ContactAdmin(admin.ModelAdmin):
     inlines = [MessageStackedInline, EnquiryMessageInline]
     actions = [bulk_send]
     list_filter = ['status', 'assigned_to', 'type']
-    readonly_fields = ['screen_name', 'user_id', 'date_created', 'topic',
-                       'date', 'email', 'file', 'enquiry']
+    readonly_fields = ['screen_name', 'user_id', 'created', 'topic', 'email',
+                       'file', 'enquiry']
     list_display = ['screen_name', 'created', 'topic', 'status']
     search_fields = ["screen_name", "user_id", "status", "thread_messages__message"]
 
