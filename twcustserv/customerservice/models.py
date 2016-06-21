@@ -141,7 +141,7 @@ class Enquiry(models.Model):
 
 class Message(models.Model):
     creator = models.BooleanField(default=False)
-    thread = models.ForeignKey(Thread, related_name="thread_messages")
+    contact = models.ForeignKey(Contact, related_name="thread_messages")
     message = models.TextField()
     sender = models.CharField(max_length=140, null=True, blank=True)
     message_id = models.CharField(max_length=20, null=True, blank=True)
@@ -220,7 +220,7 @@ class TopicField(models.Model):
 
 class EnquiryResponse(models.Model):
     creator = models.BooleanField(default=False)
-    thread = models.ForeignKey(Enquiry)
+    contact = models.ForeignKey(Contact)
     message = models.TextField()
     sender = models.CharField(max_length=140, null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)

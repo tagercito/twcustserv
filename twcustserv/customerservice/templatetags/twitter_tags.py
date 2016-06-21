@@ -1,34 +1,41 @@
 from django import template
-from customerservice.models import Thread, Bulletin
+from customerservice.models import Contact, Bulletin
 import json
 register = template.Library()
 
 
 def get_thread_count(status):
-    thread_count = Thread.objects.filter(status=status).count()
+    thread_count = Contact.objects.filter(type=Contact.THREAD,
+                                          status=status).count()
     return thread_count
 
 def get_messages_since_last_login(user):
     last_login = user.last_login
-    threads = Thread.objects.filter(thread_messages__date_created__lte=last_login).distinct().order_by("-thread_messages__date_created")
+    threads = Contact.objects.filter(
+        type=Contact.THREAD,
+        thread_messages__date_created__lte=last_login
+    ).distinct().order_by("-thread_messages__date_created")
     return threads
 
 
 def get_thread_chart(status):
     open_t = {
-        'value': Thread.objects.filter(status='OP').count(),
+        'value': Contact.objects.filter(type=Contact.THREAD,
+                                        status='OP').count(),
         'color': "#46BFBD",
         'highlight': "#5AD3D1",
         'label': "OPEN"
     }
     closed_t = {
-        'value': Thread.objects.filter(status='CL').count(),
+        'value': Contact.objects.filter(type=Contact.THREAD,
+                                        status='CL').count(),
         'color': "#F7464A",
         'highlight': "#FF5A5E",
         'label': "CLOSED"
     }
     pending_t = {
-        'value': Thread.objects.filter(status='PE').count(),
+        'value': Contact.objects.filter(type=Contact.THREAD,
+                                        status='PE').count(),
         'color': "#FDB45C",
         'highlight': "#FFC870",
         'label': "PENDING"
@@ -45,7 +52,8 @@ def get_important_bulletins(user):
 
 def get_user_ticket_quantity(user):
     users = dict(nadie=0)
-    for thread in Thread.objects.filter(status='OP'):
+    for thread in Contact.objects.filter(type=Contact.THREAD,
+                                         status='OP'):
         if thread.assigned_to:
             if not users.get(thread.assigned_to.username, None):
                 users[thread.assigned_to.username] = 1

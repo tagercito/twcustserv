@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from customerservice.models import Thread, Message, CLOSED, OPEN, PENDING
+from customerservice.models import Contact, Message, CLOSED, OPEN, PENDING
 from twitter import Api, TwitterError
 import time
 from datetime import datetime
@@ -25,32 +25,33 @@ class Command(BaseCommand):
                     msg.created_at,
                     '%a %b %d %H:%M:%S %z %Y'
                 )
-                thread, created = Thread.objects.get_or_create(
+                contact, created = Contact.objects.get_or_create(
                     user_id=msg.sender_id,
                     screen_name=msg.sender_screen_name,
+                    type=Contact.THREAD,
                     defaults={
-                        'date_created': date_created
+                        'created': date_created
                     })
-                if created or thread.status == CLOSED:
+                if created or contact.status == Contact.CLOSED:
                     try:
                         own_msg = api.PostDirectMessage(
                             settings.ANSWER_TO_DIRECT_MESSAGE % msg.sender_screen_name, msg.sender_id
                         )
                         msg_data = {
                             "creator": True,
-                            "thread": thread,
+                            "contact": contact,
                             "message_id": own_msg.id,
                             "sender": own_msg.sender_id,
                             "message": own_msg.text
                         }
                         message, created = Message.objects.get_or_create(**msg_data)
-                        thread.status = OPEN
-                        thread.save()
+                        contact.status = Contact.OPEN
+                        contact.save()
                     except (TwitterError) as e:
                         pass
                 msg_data = {
                     "creator": True,
-                    "thread": thread,
+                    "contact": contact,
                     "message_id": msg.id,
                     "sender": msg.sender_id,
                     "message": msg.text

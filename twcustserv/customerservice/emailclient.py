@@ -50,7 +50,7 @@ class EmailClient(object):
                 return
             else:
                 payload = self.get_payload(message)
-                message = EnquiryResponse.objects.create(thread=enq.thread,
+                message = EnquiryResponse.objects.create(contact=enq.contact,
                                                          message=payload,
                                                          message_id=self.get_header(message, 'Message-ID'))
 

@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, View
 from django.shortcuts import render
-from .models import Topic, Enquiry
+from .models import Contact, Topic
 from django.http import HttpResponse
 import json
 
@@ -13,13 +13,14 @@ class FileUploadView(View):
 
     def post(self, request):
         try:
-            enq = Enquiry.objects.get(pk=request.POST['enquiry'])
+            enq = Contact.objects.get(pk=request.POST['enquiry'])
         except:
             raise
         else:
             enq.file = request.FILES['file']
             enq.save()
         return HttpResponse(1)
+
 
 class TopicView(View):
 
@@ -56,7 +57,12 @@ class TopicView(View):
 
     def post(self, request):
         text = self.parse_request(request.POST)
-        enq = Enquiry.objects.create(topic=Topic.objects.get(pk=request.POST['topic']),
-                                     enquiry=text,
-                                     email=request.POST['email'])
+        topic = Topic.objects.get(pk=request.POST['topic'])
+        email = request.POST['email']
+        enq = Contact.objects.create(
+            type=Contact.ENQUIRY,
+            topic=topic,
+            enquiry=text,
+            email=email
+        )
         return HttpResponse(enq.pk)
